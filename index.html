@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>שאלון היכרות</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap">
+<style>
+:root{
+  --bg:#F2F4F0; --bg2:#E7ECE6; --surface:#FFFFFF; --ink:#1B2420; --muted:#66716B; --line:#D5DCD6;
+  --accent:#2F6B57; --accent-2:#3E8A70; --accent-ink:#FFFFFF; --chip:#EEF3EF; --chip-on:#2F6B57; --chip-on-ink:#FFFFFF;
+  --soft:#EEF3EF; --warn:#B3541E; --focus:#7FC4A8; --shadow:0 2px 6px rgba(20,30,25,.06),0 18px 40px rgba(20,30,25,.10);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#141917; --bg2:#1B2320; --surface:#1F2724; --ink:#E9EEEA; --muted:#9BA69F; --line:#2F3934;
+  --accent:#7FC4A8; --accent-2:#9AD4BC; --accent-ink:#0F1A15; --chip:#28322E; --chip-on:#7FC4A8; --chip-on-ink:#0F1A15;
+  --soft:#1B2320; --warn:#E39A66; --focus:#A8DCC6; --shadow:0 2px 6px rgba(0,0,0,.4),0 18px 40px rgba(0,0,0,.4);
+}}
+:root[data-theme="dark"]{
+  --bg:#141917; --bg2:#1B2320; --surface:#1F2724; --ink:#E9EEEA; --muted:#9BA69F; --line:#2F3934;
+  --accent:#7FC4A8; --accent-2:#9AD4BC; --accent-ink:#0F1A15; --chip:#28322E; --chip-on:#7FC4A8; --chip-on-ink:#0F1A15;
+  --soft:#1B2320; --warn:#E39A66; --focus:#A8DCC6; --shadow:0 2px 6px rgba(0,0,0,.4),0 18px 40px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box} html,body{height:100%}
+body{margin:0;background:radial-gradient(1200px 700px at 80% -10%,var(--bg2),transparent 60%),var(--bg);color:var(--ink);font-family:"Heebo",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;font-size:18px;line-height:1.5;-webkit-font-smoothing:antialiased}
+#app{min-height:100%;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:5;padding:12px 18px 8px;background:linear-gradient(var(--bg) 70%,transparent)}
+.top .row{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:720px;margin:0 auto}
+.brand{font-family:"Frank Ruhl Libre",Georgia,serif;font-weight:700;font-size:17px;color:var(--accent)}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;max-width:720px;margin:8px auto 0}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .35s ease}
+.count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.langbtn{font:inherit;font-size:13px;background:var(--chip);color:var(--ink);border:0;border-radius:999px;padding:6px 12px;cursor:pointer}
+.stage{flex:1;display:flex;align-items:center;justify-content:center;padding:12px 18px 140px}
+.card{width:100%;max-width:720px}
+.screen{animation:in .32s ease both}
+.screen.out{animation:out .22s ease both}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes out{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-10px)}}
+.chapter{display:inline-block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:10px;padding:4px 10px;border-radius:999px;background:var(--chip)}
+h1,h2{font-family:"Frank Ruhl Libre",Georgia,"Times New Roman",serif;text-wrap:balance;line-height:1.18;margin:0 0 10px}
+h1{font-size:clamp(30px,6vw,44px);font-weight:900} h2{font-size:clamp(24px,4.6vw,32px);font-weight:700}
+.lead,.hint{color:var(--muted);font-size:16px;margin:0 0 14px} .intro p{margin:0 0 10px;font-size:18px}
+.req{color:var(--muted);font-size:14px;font-weight:400;margin-inline-start:6px}
+.opts{display:grid;gap:10px;margin-top:16px}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:start;font:inherit;font-size:18px;background:var(--surface);color:var(--ink);border:2px solid var(--line);border-radius:16px;padding:14px 16px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.03);transition:transform .08s ease,border-color .15s,background .15s}
+.opt:hover{border-color:var(--accent-2)} .opt:active{transform:scale(.99)}
+.opt .k{flex:0 0 auto;width:28px;height:28px;border-radius:8px;border:2px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--muted)}
+.opt[aria-checked="true"]{border-color:var(--accent);background:var(--soft)} .opt[aria-checked="true"] .k{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.opt:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+textarea,input[type=text]{width:100%;font:inherit;font-size:19px;color:var(--ink);background:var(--surface);border:0;border-bottom:2px solid var(--line);padding:12px 4px;outline:none;transition:border-color .15s}
+textarea{min-height:110px;resize:vertical;line-height:1.5} textarea:focus,input:focus{border-bottom-color:var(--accent)}
+.other{margin-top:4px;font-size:17px}
+.foot{position:fixed;left:0;right:0;bottom:0;padding:12px 18px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 60%,transparent);z-index:6}
+.foot .in{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.btn{font:inherit;font-weight:800;font-size:18px;border:0;border-radius:14px;padding:14px 22px;background:var(--accent);color:var(--accent-ink);cursor:pointer;min-height:52px;box-shadow:var(--shadow);transition:transform .08s ease,opacity .15s}
+.btn:active{transform:scale(.98)} .btn:disabled{opacity:.5;cursor:default;box-shadow:none}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:none;font-weight:500;padding-inline:12px}
+.btn.alt{background:var(--surface);color:var(--ink);border:1px solid var(--line);box-shadow:none;font-weight:600}
+.btn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.spacer{flex:1} .kbd{font-size:12px;color:var(--muted);display:none} @media(min-width:760px){.kbd{display:inline}}
+.msg{font-size:14px;color:var(--warn);min-height:18px;margin-top:10px} .msg.ok{color:var(--accent)}
+.review{display:grid;gap:6px;margin-top:12px}
+.rv{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;font-size:15px}
+.rv .n{color:var(--muted);font-variant-numeric:tabular-nums} .rv .a{color:var(--ink)} .rv .a.none{color:var(--muted);font-style:italic} .rv .q{color:var(--muted);font-size:13px}
+.consent{background:var(--soft);border-radius:14px;padding:14px;font-size:15px;margin:14px 0}
+.check{display:flex;align-items:center;gap:12px;font-size:18px;cursor:pointer;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:14px 16px}
+.check input{width:22px;height:22px;accent-color:var(--accent)}
+.done{text-align:center;padding:40px 0} .done .big{font-size:64px;line-height:1;margin-bottom:12px}
+pre.out{white-space:pre-wrap;font:inherit;font-size:14px;background:var(--surface);border:1px solid var(--line);padding:12px;border-radius:12px;max-height:40vh;overflow:auto;margin-top:12px}
+.resume{font-size:14px;color:var(--muted);margin-top:10px} .resume button{font:inherit;font-size:14px;background:none;border:0;color:var(--accent);cursor:pointer;text-decoration:underline}
+@media (prefers-reduced-motion: reduce){ .screen,.screen.out{animation:none} .bar i{transition:none} }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="top"><div class="row"><span class="brand" id="brand"></span><span class="count" id="count"></span><button class="langbtn" id="langbtn" type="button" hidden></button></div><div class="bar"><i id="bar"></i></div></div>
+  <div class="stage"><div class="card"><div class="screen" id="screen"></div></div></div>
+  <div class="foot"><div class="in"><button class="btn ghost" id="back" type="button"></button><span class="kbd" id="kbd"></span><span class="spacer"></span><button class="btn" id="next" type="button"></button></div></div>
+</div>
+<script type="application/json" id="Q">{"structure": {"sections": [{"questions": [{"id": "name", "type": "text", "other": false, "lines": 1, "required": true, "max": null}, {"id": "age", "type": "text", "other": false, "lines": 1, "required": false, "max": null}, {"id": "new_filled_by", "type": "single", "other": true, "lines": 2, "required": false, "max": null}]}, {"questions": [{"id": "new_sport_past", "type": "single", "other": false, "lines": 2, "required": false, "max": null}, {"id": "new_sport_past_details", "type": "text", "other": false, "lines": 2, "required": false, "max": null}, {"id": "new_sport_current", "type": "single", "other": false, "lines": 2, "required": false, "max": null}, {"id": "new_sport_current_details", "type": "text", "other": false, "lines": 2, "required": false, "max": null}, {"id": "new_everyday_movement", "type": "multi", "other": true, "lines": 2, "required": false, "max": null}]}, {"questions": [{"id": "new_strengths_physical", "type": "multi", "other": true, "lines": 2, "required": false, "max": null}, {"id": "new_strengths_general", "type": "text", "other": false, "lines": 2, "required": false, "max": null}, {"id": "new_proud_of", "type": "text", "other": false, "lines": 2, "required": false, "max": null}, {"id": "familiar", "type": "text", "other": false, "lines": 2, "required": false, "max": null}, {"id": "known_exercises", "type": "text", "other": false, "lines": 2, "required": false, "max": null}]}, {"questions": [{"id": "new_motivators", "type": "multi", "other": true, "lines": 2, "required": false, "max": null}, {"id": "new_interests", "type": "text", "other": false, "lines": 2, "required": false, "max": null}, {"id": "new_aversions", "type": "multi", "other": true, "lines": 2, "required": false, "max": null}, {"id": "new_overload_signs", "type": "text", "other": false, "lines": 2, "required": false, "max": null}]}, {"questions": [{"id": "comm", "type": "single", "other": true, "lines": 2, "required": false, "max": null}, {"id": "new_exercise_help", "type": "single", "other": false, "lines": 2, "required": false, "max": null}, {"id": "talk_during", "type": "single", "other": false, "lines": 2, "required": false, "max": null}, {"id": "unclear_instruction", "type": "single", "other": false, "lines": 2, "required": false, "max": null}, {"id": "long_explanations", "type": "single", "other": false, "lines": 2, "required": false, "max": null}, {"id": "response_time", "type": "single", "other": false, "lines": 2, "required": false, "max": null}, {"id": "before_start", "type": "single", "other": false, "lines": 2, "required": false, "max": null}, {"id": "correction_style", "type": "single", "other": false, "lines": 2, "required": false, "max": null}, {"id": "instructions_at_once", "type": "single", "other": false, "lines": 2, "required": false, "max": null}, {"id": "repetition_feel", "type": "single", "other": false, "lines": 2, "required": false, "max": null}, {"id": "talk_while_moving", "type": "single", "other": false, "lines": 2, "required": false, "max": null}, {"id": "new_situations", "type": "single", "other": false, "lines": 2, "required": false, "max": null}, {"id": "cueWordings", "type": "text", "other": false, "lines": 2, "required": false, "max": null}]}, {"questions": [{"id": "sensory", "type": "single", "other": false, "lines": 2, "required": false, "max": null}, {"id": "helps", "type": "multi", "other": true, "lines": 2, "required": false, "max": null}]}, {"questions": [{"id": "mobility", "type": "single", "other": true, "lines": 2, "required": false, "max": null}, {"id": "physical", "type": "text", "other": false, "lines": 2, "required": false, "max": null}, {"id": "conditions", "type": "text", "other": false, "lines": 2, "required": false, "max": null}]}, {"questions": [{"id": "new_goal_primary", "type": "multi", "other": true, "lines": 2, "required": false, "max": null}, {"id": "notes", "type": "text", "other": false, "lines": 2, "required": false, "max": null}]}, {"questions": [{"id": "recordConsent", "type": "single", "other": false, "lines": 2, "required": true, "max": null}]}]}, "lang": {"he": {"dir": "rtl", "title": "שאלון היכרות", "intro": ["היי לכולם 😊", "אשמח להכיר כל אחד ואחת קצת יותר, כדי שאוכל לדייק את האימונים ולהבין מה הם אוהבים, מה עובד להם ומה יכול לעזור.", "אפשר לדלג על כל שאלה שלא רלוונטית או שאין עליה תשובה."], "consent": "הצילומים וההקלטות נשמרים אצלי בלבד, לא נשלחים לגורם אחר ולא מתפרסמים. המידע בשאלון נועד רק כדי לעזור לי להתאים את האימון ולעקוב אחרי ההתקדמות. אפשר לדלג על כל שאלה שלא רוצים לענות עליה. השאלון כתוב בלשון זכר מטעמי נוחות ומיועד לכולם.", "closing": "תודה רבה ❤️", "identity": {"by": "שם ממלא/ת השאלון", "tel": "טלפון או מייל לחזרה"}, "ui": {"start": "בואו נתחיל", "next": "הבא", "back": "חזרה", "send": "שליחה", "skip": "דילוג", "required": "חובה", "optional": "לא חובה", "pickOne": "בחרו אחד", "pickMany": "אפשר לבחור כמה", "otherPh": "אחר: כתבו כאן", "textPh": "כתבו כאן...", "enterHint": "Enter לשאלה הבאה", "progress": "שאלה {n} מתוך {total}", "review": "סיכום לפני שליחה", "reviewHint": "לחיצה על שורה מחזירה לשאלה.", "noAnswer": "לא נענה", "consentCheck": "קראתי ואני מאשר/ת", "missing": "חסר: ", "sending": "שולח...", "sentTitle": "נשלח!", "sentBody": "התשובות הגיעו ללימור.", "shareTitle": "התשובות מוכנות", "shareBody": "לחצו כדי לשלוח בוואטסאפ, או העתיקו את הטקסט.", "whatsapp": "שליחה בוואטסאפ", "copy": "העתקת הטקסט", "copied": "הועתק", "failed": "השליחה לא הצליחה. אפשר לנסות שוב או לשלוח בוואטסאפ.", "retry": "לנסות שוב", "filler": "ממלא/ת", "contact": "לחזרה", "resume": "ממשיכים מאיפה שעצרנו", "restart": "להתחיל מחדש", "langName": "עברית"}, "sections": [{"title": "1. קצת עליו או עליה", "lead": "", "questions": [{"text": "מה שמו?", "hint": "", "options": []}, {"text": "בן/בת כמה הוא/היא?", "hint": "", "options": []}, {"text": "מי ממלא/ת את השאלון?", "hint": "", "options": ["אמא", "אבא", "הורה אחר / אפוטרופוס", "מטפל/ת", "המתאמן/ת בעצמו/ה", "יחד עם המתאמן/ת"]}]}, {"title": "2. ספורט ותנועה, פעם והיום", "lead": "", "questions": [{"text": "האם בעבר הוא עסק בספורט או בפעילות גופנית מסודרת?", "hint": "", "options": ["כן", "לא", "לא בטוחים"]}, {"text": "אם כן, מה הוא עשה? באיזה גיל בערך, כמה זמן ולמה הפסיק אם הפסיק?", "hint": "", "options": []}, {"text": "האם היום הוא עושה פעילות גופנית כלשהי?", "hint": "", "options": ["כן, באופן קבוע", "לפעמים", "לא ממש"]}, {"text": "מה הוא עושה היום ובאיזו תדירות?", "hint": "למשל הליכות, אופניים, שחייה, חוג, משחקי כדור, ריקוד, חדר כושר או כל דבר אחר.", "options": []}, {"text": "איך הוא זז ביום יום? אפשר לסמן כמה תשובות.", "hint": "", "options": ["הולך הרבה ברגל", "עולה במדרגות בלי קושי", "רץ", "קופץ", "מטפס", "רוכב על אופניים", "שוחה", "רוקד או זז למוזיקה", "מעדיף לשבת רוב הזמן"]}]}, {"title": "3. מה הוא אוהב, במה הוא טוב ומה משמח אותו?", "lead": "הדברים שהוא כבר יודע, אוהב ומצליח בהם עוזרים לי מאוד בתוך האימון.", "questions": [{"text": "במה הוא טוב מבחינה גופנית? אפשר לסמן כמה תשובות.", "hint": "", "options": ["כוח", "שיווי משקל", "גמישות", "סיבולת", "קצב ומוזיקליות", "זריזות ומהירות", "דיוק בתנועה", "התמדה", "עדיין לא יודעים"]}, {"text": "במה הוא טוב באופן כללי, לא רק בספורט?", "hint": "למשל זיכרון, מוזיקה, מחשבים, ציור, חוש הומור, דייקנות, סבלנות, עזרה לאחרים או כל דבר אחר.", "options": []}, {"text": "במה הוא גאה? על מה הוא אוהב שמשבחים אותו?", "hint": "", "options": []}, {"text": "יש תנועות, פעילויות או תרגילים שהוא כבר מכיר, אוהב או מצליח בהם?", "hint": "", "options": []}, {"text": "אילו תרגילים או תנועות הוא כבר יודע לעשות? ספרו לי קצת מה הוא מכיר.", "hint": "", "options": []}]}, {"title": "4. מה מניע אותו ומה פחות עובד לו?", "lead": "", "questions": [{"text": "מה גורם לו להתלהב ולהתמיד? אפשר לסמן כמה תשובות.", "hint": "", "options": ["מילים טובות ועידוד", "משחק ואתגר", "מוזיקה", "שגרה קבועה וידועה מראש", "לבחור בעצמו בין אפשרויות", "פרסים, מדבקות או נקודות", "לראות שהוא מתקדם", "לעשות יחד עם מישהו שהוא אוהב", "כמה שפחות דיבור, פשוט לעשות"]}, {"text": "מה הוא אוהב מאוד?", "hint": "תחומי עניין, דמויות, מוזיקה, נושאים או דברים שאפשר אולי לשלב באימון.", "options": []}, {"text": "מה הוא פחות אוהב או מה עלול לגרום לו להיסגר או להתנגד? אפשר לסמן כמה תשובות.", "hint": "", "options": ["קול רם", "הרבה מילים בבת אחת", "דרישה ישירה", "מגע לא צפוי", "תרגיל חדש", "מקום חדש", "שינויים מהירים", "רעש ברקע", "שמסתכלים עליו", "להפסיד או לא להצליח"]}, {"text": "איך אתם מזהים שהוא מתחיל להתעייף, להיות מוצף או שצריך רגע לעצמו? ומה בדרך כלל עוזר לו?", "hint": "", "options": []}]}, {"title": "5. איך הוא מתקשר ואיך הכי קל לו ללמוד?", "lead": "התשובות כאן יעזרו לי להבין איך לדבר איתו, כמה לדבר ומתי עדיף פשוט לתת לו זמן.", "questions": [{"text": "איך הוא מתקשר?", "hint": "", "options": ["מדבר במשפטים", "מדבר קצת או משתמש במילים בודדות", "לא מדבר, אבל מבין ומתקשר בדרכים אחרות"]}, {"text": "כשהוא לומד משהו חדש, מה הכי עוזר לו?", "hint": "", "options": ["הוראה קצרה אחת", "הסבר מלא במילים", "הוראות צעד אחר צעד", "לראות הדגמה ואז לנסות", "לא בטוחים"]}, {"text": "בזמן שהוא עושה משהו, כמה כדאי לדבר אליו?", "hint": "", "options": ["רק כשצריך לתקן משהו חשוב", "מדי פעם, קצת עידוד", "הרבה, כדי ללוות אותו לאורך הפעילות"]}, {"text": "אם הוא לא הבין הוראה, מה בדרך כלל הכי עוזר?", "hint": "", "options": ["לחזור עליה שוב", "להגיד אותה במילים פשוטות יותר", "לפרק אותה לצעדים", "לתת לו עוד רגע לפני שמדברים שוב"]}, {"text": "איך הסברים ארוכים עובדים אצלו?", "hint": "", "options": ["טוב, הוא אוהב להבין הכול", "בסדר, אם הם לא ארוכים מדי", "מעמיסים עליו והוא מאבד את ההתחלה"]}, {"text": "אחרי שאומרים לו מה לעשות, בדרך כלל הוא...", "hint": "", "options": ["מתחיל מיד", "צריך כמה שניות", "צריך זמן שקט לפני שהוא מתחיל"]}, {"text": "לפני שמתחילים משהו חדש, מה עדיף לו?", "hint": "", "options": ["פשוט להתחיל וללמוד תוך כדי", "משפט קצר על מה עושים", "הסבר מסודר על מה עושים ואיך", "הסבר מלא על מה עושים, איך ולמה"]}, {"text": "כשמתקנים אותו באמצע תנועה, מה עובד הכי טוב?", "hint": "", "options": ["מילה או שתיים", "משפט קצר שמסביר", "לעצור רגע ולעבור על זה שלב שלב"]}, {"text": "כמה הוראות הוא יכול לקבל ביחד?", "hint": "", "options": ["כמה שצריך, הוא זוכר רצף", "שתיים או שלוש", "אחת בכל פעם"]}, {"text": "כשחוזרים על אותו משפט שוב...", "hint": "", "options": ["זה עוזר לו לקלוט", "עדיף להגיד את זה במילים אחרות", "עדיף לתת לו שקט ועוד זמן"]}, {"text": "דיבור בזמן שהוא בתנועה...", "hint": "", "options": ["עוזר לו להתרכז", "לא מפריע ולא עוזר", "מוציא אותו מריכוז"]}, {"text": "דברים חדשים, כמו מקום חדש או פעילות חדשה, בדרך כלל...", "hint": "", "options": ["מסקרנים אותו", "דורשים ממנו קצת זמן להסתגל", "מלחיצים אותו בהתחלה"]}, {"text": "יש מילים, משפטים או דימויים שעובדים אצלו במיוחד?", "hint": "למשל אם יותר קל לו להבין \"שב כמו על כיסא\" מאשר \"רד למטה\".", "options": []}]}, {"title": "6. רעש, מגע, מוזיקה וגירויים", "lead": "", "questions": [{"text": "איך הוא עם רעש, אורות והרבה דברים שקורים סביבו?", "hint": "", "options": ["בדרך כלל לא רגיש במיוחד", "רגיש ועדיף פחות גירויים", "רגיש מאוד וצריך סביבה שקטה יותר", "להפך, צריך הרבה אנרגיה ועניין כדי להתרכז"]}, {"text": "מה בדרך כלל עוזר לו להבין, להתרכז ולהרגיש בנוח? אפשר לסמן כמה תשובות.", "hint": "", "options": ["עדיף להראות לו מאשר להסביר במילים", "צריך להגיד בקול כי הוא לא קורא", "רמז קצר או מילה אחת", "משהו שאפשר לראות ולהצביע עליו", "תרגיל מוכר לפני תרגיל חדש", "מוזיקה עוזרת לו", "מוזיקה מפריעה לו", "עזרה פיזית בסדר, אם מבקשים קודם", "עדיף להימנע ממגע", "צריך הפסקות קצרות", "צעד אחד בכל פעם"]}]}, {"title": "7. הגוף, מה חשוב שאדע", "lead": "בלי אבחנות. רק דברים שחשוב לדעת כדי לשמור עליו ולהתאים את האימון.", "questions": [{"text": "איך הוא עומד וזז?", "hint": "", "options": ["עומד וזז חופשי", "צריך תמיכה בעמידה", "מתאמן בישיבה", "משתמש בכיסא גלגלים"]}, {"text": "יש משהו בגוף שחשוב שאדע לקראת האימון?", "hint": "למשל צד חלש יותר, כאב, רגישות, מגבלה בטווח תנועה, ניתוח שעבר או משהו אחר.", "options": []}, {"text": "יש הנחיות מרופא או מפיזיותרפיסט שחשוב שאדע?", "hint": "למשל מה לא לעשות, ממה להיזהר או משהו שמשפיע על המאמץ.", "options": []}]}, {"title": "8. מה הייתם רוצים שיקרה?", "lead": "", "questions": [{"text": "מה הכי הייתם רוצים שהאימון ייתן לו? סמנו עד שתי מטרות עיקריות.", "hint": "סמנו עד שתיים", "options": ["לזוז יותר ולהרגיש טוב בגוף", "כוח", "שיווי משקל", "ביטחון עצמי", "שגרה קבועה", "תקשורת", "רוגע וויסות", "פשוט ליהנות"]}, {"text": "יש עוד משהו שחשוב שאדע עליו?", "hint": "", "options": []}]}, {"title": "9. אישור צילום והקלטה", "lead": "אני מצלמת או מקליטה חלק מהאימונים כדי לעקוב אחרי ההתקדמות ולדייק את העבודה.", "questions": [{"text": "האם אתם מאשרים צילום או הקלטה לצורך מעקב אימוני בלבד?", "hint": "", "options": ["כן, מאשרים צילום וידאו והקלטת קול", "מאשרים הקלטת קול בלבד", "לא מאשרים"]}]}]}, "en": {"dir": "ltr", "title": "Getting to Know You", "intro": ["Hi everyone 😊", "I would love to get to know each trainee a little better, so I can fine-tune the training and understand what they love, what works for them and what can help.", "Feel free to skip any question that is not relevant or that you do not have an answer to."], "consent": "The photos, videos and recordings stay with me only. They are never sent to anyone else and never published. The information in this questionnaire is used only to help me adapt the training and follow progress. You can skip any question you would rather not answer.", "closing": "Thank you so much ❤️", "identity": {"by": "Your name (the person filling in the questionnaire)", "tel": "Phone or email so I can get back to you"}, "ui": {"start": "Let's start", "next": "Next", "back": "Back", "send": "Send", "skip": "Skip", "required": "required", "optional": "optional", "pickOne": "Pick one", "pickMany": "Pick all that apply", "otherPh": "Other: write here", "textPh": "Type here...", "enterHint": "Enter for next", "progress": "Question {n} of {total}", "review": "Review before sending", "reviewHint": "Tap a row to go back to that question.", "noAnswer": "Not answered", "consentCheck": "I have read and I agree", "missing": "Missing: ", "sending": "Sending...", "sentTitle": "Sent!", "sentBody": "Your answers reached Limor.", "shareTitle": "Your answers are ready", "shareBody": "Tap to send on WhatsApp, or copy the text.", "whatsapp": "Send on WhatsApp", "copy": "Copy text", "copied": "Copied", "failed": "Sending failed. Try again or send on WhatsApp.", "retry": "Try again", "filler": "Filled in by", "contact": "Contact", "resume": "Continuing where you left off", "restart": "Start over", "langName": "English"}, "sections": [{"title": "1. A little about them", "lead": "", "questions": [{"text": "What is their name?", "hint": "", "options": []}, {"text": "How old are they?", "hint": "", "options": []}, {"text": "Who is filling in the questionnaire?", "hint": "", "options": ["Mom", "Dad", "Another parent / guardian", "Caregiver", "The trainee themselves", "Together with the trainee"]}]}, {"title": "2. Sports and movement, then and now", "lead": "", "questions": [{"text": "Have they done any organized sports or physical activity in the past?", "hint": "", "options": ["Yes", "No", "Not sure"]}, {"text": "If yes, what did they do? At roughly what age, for how long, and why did they stop (if they stopped)?", "hint": "", "options": []}, {"text": "Do they do any physical activity these days?", "hint": "", "options": ["Yes, regularly", "Sometimes", "Not really"]}, {"text": "What do they do today, and how often?", "hint": "For example walks, cycling, swimming, a class, ball games, dancing, the gym or anything else.", "options": []}, {"text": "How do they move in everyday life? You can pick more than one answer.", "hint": "", "options": ["Walks a lot", "Climbs stairs without difficulty", "Runs", "Jumps", "Climbs", "Rides a bike", "Swims", "Dances or moves to music", "Prefers to sit most of the time"]}]}, {"title": "3. What do they love, what are they good at and what makes them happy?", "lead": "The things they already know, love and do well help me a lot during training.", "questions": [{"text": "What are they good at physically? You can pick more than one answer.", "hint": "", "options": ["Strength", "Balance", "Flexibility", "Endurance", "Rhythm and musicality", "Agility and speed", "Precise movement", "Persistence", "We don't know yet"]}, {"text": "What are they good at in general, not just in sports?", "hint": "For example memory, music, computers, drawing, a sense of humor, precision, patience, helping others or anything else.", "options": []}, {"text": "What are they proud of? What do they like being praised for?", "hint": "", "options": []}, {"text": "Are there movements, activities or exercises they already know, enjoy or do well?", "hint": "", "options": []}, {"text": "Which exercises or movements can they already do? Tell me a little about what they know.", "hint": "", "options": []}]}, {"title": "4. What motivates them and what works less well for them?", "lead": "", "questions": [{"text": "What gets them excited and keeps them going? You can pick more than one answer.", "hint": "", "options": ["Kind words and encouragement", "Games and challenges", "Music", "A fixed routine they know in advance", "Choosing between options themselves", "Prizes, stickers or points", "Seeing that they are making progress", "Doing it together with someone they love", "As little talking as possible, just doing"]}, {"text": "What do they really love?", "hint": "Interests, characters, music, topics or things I might be able to bring into the training.", "options": []}, {"text": "What do they like less, or what might make them shut down or resist? You can pick more than one answer.", "hint": "", "options": ["A loud voice", "Many words at once", "A direct demand", "Unexpected touch", "A new exercise", "A new place", "Quick changes", "Background noise", "Being watched", "Losing or not succeeding"]}, {"text": "How do you notice that they are starting to get tired, feel overwhelmed or need a moment to themselves? And what usually helps them?", "hint": "", "options": []}]}, {"title": "5. How do they communicate and how do they learn best?", "lead": "Your answers here will help me understand how to talk to them, how much to talk and when it is better to simply give them time.", "questions": [{"text": "How do they communicate?", "hint": "", "options": ["Speaks in sentences", "Speaks a little or uses single words", "Does not speak, but understands and communicates in other ways"]}, {"text": "When they learn something new, what helps them most?", "hint": "", "options": ["One short instruction", "A full explanation in words", "Step by step instructions", "Watching a demonstration and then trying", "Not sure"]}, {"text": "While they are doing something, how much should I talk to them?", "hint": "", "options": ["Only when something important needs correcting", "Now and then, a little encouragement", "A lot, to guide them all the way through the activity"]}, {"text": "If they did not understand an instruction, what usually helps most?", "hint": "", "options": ["Repeating it", "Saying it in simpler words", "Breaking it down into steps", "Giving them another moment before speaking again"]}, {"text": "How do long explanations work for them?", "hint": "", "options": ["Well, they like to understand everything", "Fine, as long as they are not too long", "They are overwhelming and they lose the beginning"]}, {"text": "After they are told what to do, they usually...", "hint": "", "options": ["Start right away", "Need a few seconds", "Need some quiet time before they start"]}, {"text": "Before starting something new, what do they prefer?", "hint": "", "options": ["Just starting and learning as they go", "A short sentence about what we are doing", "A clear explanation of what we are doing and how", "A full explanation of what we are doing, how and why"]}, {"text": "When they are corrected in the middle of a movement, what works best?", "hint": "", "options": ["A word or two", "A short sentence that explains", "Pausing for a moment and going over it step by step"]}, {"text": "How many instructions can they take at once?", "hint": "", "options": ["As many as needed, they remember a sequence", "Two or three", "One at a time"]}, {"text": "When the same sentence is repeated to them...", "hint": "", "options": ["It helps them take it in", "It is better to say it in different words", "It is better to give them quiet and more time"]}, {"text": "Talking while they are moving...", "hint": "", "options": ["Helps them focus", "Neither bothers nor helps", "Breaks their focus"]}, {"text": "New things, like a new place or a new activity, usually...", "hint": "", "options": ["Make them curious", "Need a little time to get used to", "Stress them at first"]}, {"text": "Are there words, phrases or images that work especially well for them?", "hint": "For example, if \"sit like on a chair\" is easier for them to understand than \"go down\".", "options": []}]}, {"title": "6. Noise, touch, music and stimulation", "lead": "", "questions": [{"text": "How are they with noise, lights and a lot going on around them?", "hint": "", "options": ["Usually not especially sensitive", "Sensitive, less stimulation is better", "Very sensitive, needs a quieter environment", "The opposite, needs a lot of energy and interest to focus"]}, {"text": "What usually helps them understand, focus and feel comfortable? You can pick more than one answer.", "hint": "", "options": ["Showing them works better than explaining in words", "It needs to be said out loud, because they do not read", "A short cue or a single word", "Something they can see and point to", "A familiar exercise before a new one", "Music helps them", "Music bothers them", "Physical help is fine, if asked first", "Better to avoid touch", "They need short breaks", "One step at a time"]}]}, {"title": "7. The body, what I should know", "lead": "No diagnoses. Just the things I should know to keep them safe and adapt the training.", "questions": [{"text": "How do they stand and move?", "hint": "", "options": ["Stands and moves freely", "Needs support when standing", "Trains seated", "Uses a wheelchair"]}, {"text": "Is there anything about their body I should know before training?", "hint": "For example a weaker side, pain, sensitivity, limited range of motion, a past surgery or anything else.", "options": []}, {"text": "Are there any instructions from a doctor or physiotherapist I should know about?", "hint": "For example what not to do, what to be careful of or anything that affects exertion.", "options": []}]}, {"title": "8. What would you like to happen?", "lead": "", "questions": [{"text": "What would you most like the training to give them? Pick up to two main goals.", "hint": "Pick up to two", "options": ["Moving more and feeling good in their body", "Strength", "Balance", "Confidence", "A steady routine", "Communication", "Calm and regulation", "Just having fun"]}, {"text": "Is there anything else I should know about them?", "hint": "", "options": []}]}, {"title": "9. Filming and recording consent", "lead": "I film or record some of the sessions to follow progress and make the training more precise.", "questions": [{"text": "Do you agree to filming or recording, for tracking training progress only?", "hint": "", "options": ["Yes, I agree to video filming and audio recording", "I agree to audio recording only", "I do not agree"]}]}]}}, "submit": {"mode": "share"}}</script>
+<script>
+(function(){
+  var D = JSON.parse(document.getElementById('Q').textContent), S = D.structure, LANGS = D.lang, SUBMIT = D.submit || { mode: 'share' };
+  var KEY = 'intake-typeform-v6', lang = 'he';
+  try { var sl = localStorage.getItem(KEY + ':lang'); if (sl && LANGS[sl]) lang = sl; } catch (e) {}
+  var T = function(){ return LANGS[lang]; }, UI = function(k){ return T().ui[k] || ''; };
+  // flat question list
+  var items = []; S.sections.forEach(function(sec, si){ sec.questions.forEach(function(q, qi){ items.push({ si: si, qi: qi, n: items.length + 1, q: q }); }); });
+  var TOTAL = items.length;
+  // steps: welcome, by, tel, q1..qN, consent, review, done
+  var steps = ['welcome', 'by', 'tel'].concat(items.map(function(it){ return 'q' + it.n; })).concat(['consent', 'review']);
+  var st = { by: '', tel: '', ok: false, a: {}, step: 0 };
+  try { var saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved && saved.a) { st = saved; st.step = Math.min(st.step || 0, steps.length - 1); } } catch (e) {}
+  var resumed = st.step > 0;
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
+  var $ = function(id){ return document.getElementById(id); };
+  var screen = $('screen'), nextBtn = $('next'), backBtn = $('back'), msgEl = null;
+  function el(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function applyChrome(){
+    var t = T(); document.documentElement.setAttribute('dir', t.dir); document.documentElement.setAttribute('lang', lang); document.title = t.title; $('brand').textContent = t.title;
+    var lb = $('langbtn'); if (LANGS.en) { lb.hidden = false; lb.textContent = lang === 'he' ? 'English' : 'עברית'; }
+  }
+  if (LANGS.en) $('langbtn').addEventListener('click', function(){ lang = lang === 'he' ? 'en' : 'he'; try { localStorage.setItem(KEY + ':lang', lang); } catch (e) {} applyChrome(); render(false); });
+  function ans(n){ return st.a[n]; }
+  function answered(it){ var a = ans(it.n); if (a == null) return false; if (it.q.type === 'text') return !!String(a).trim(); return !!((a.i && a.i.length) || (a.other && a.other.trim())); }
+  function progress(){
+    var id = steps[st.step], n = 0;
+    if (id.charAt(0) === 'q') n = parseInt(id.slice(1), 10); else if (id === 'consent' || id === 'review') n = TOTAL;
+    $('bar').style.width = Math.round(100 * (st.step) / (steps.length - 1)) + '%';
+    $('count').textContent = n ? UI('progress').replace('{n}', n).replace('{total}', TOTAL) : '';
+  }
+  // ---- render ----
+  var transitioning = false;
+  function go(delta){ if (transitioning) return; var ns = Math.max(0, Math.min(steps.length - 1, st.step + delta)); if (ns === st.step) return; st.step = ns; save(); render(true); }
+  function jump(stepId){ var i = steps.indexOf(stepId); if (i >= 0) { st.step = i; save(); render(true); } }
+  function render(animate){
+    var id = steps[st.step]; progress();
+    var s = el('div', 'screen'); msgEl = null;
+    if (id === 'welcome') renderWelcome(s);
+    else if (id === 'by') renderText(s, { title: T().identity.by, required: true, key: 'by', single: true });
+    else if (id === 'tel') renderText(s, { title: T().identity.tel, required: false, key: 'tel', single: true, optional: true });
+    else if (id.charAt(0) === 'q') renderQ(s, items[parseInt(id.slice(1), 10) - 1]);
+    else if (id === 'consent') renderConsent(s);
+    else if (id === 'review') renderReview(s);
+    else if (id === 'done') renderDone(s);
+    var old = screen; if (animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) { old.classList.add('out'); transitioning = true; setTimeout(function(){ swap(); }, 180); } else swap();
+    function swap(){ s.id = 'screen'; old.replaceWith(s); screen = s; transitioning = false; var f = s.querySelector('textarea, input[type=text]'); if (f && window.innerWidth > 760) f.focus(); window.scrollTo({ top: 0 }); }
+    backBtn.textContent = UI('back'); backBtn.style.visibility = (st.step === 0 || id === 'done') ? 'hidden' : 'visible';
+    $('kbd').textContent = (id.charAt(0) === 'q' || id === 'by' || id === 'tel') ? UI('enterHint') : '';
+    if (id === 'welcome') { nextBtn.textContent = UI('start'); nextBtn.hidden = false; }
+    else if (id === 'review') { nextBtn.textContent = UI('send'); nextBtn.hidden = false; }
+    else if (id === 'done') { nextBtn.hidden = true; }
+    else { nextBtn.textContent = UI('next'); nextBtn.hidden = false; }
+  }
+  function renderWelcome(s){
+    var t = T(); s.appendChild(el('h1', null, t.title));
+    var box = el('div', 'intro'); t.intro.forEach(function(p){ box.appendChild(el('p', null, p)); }); s.appendChild(box);
+    if (resumed) { var r = el('div', 'resume'); r.appendChild(document.createTextNode(UI('resume') + ' · ')); var b = el('button', null, UI('restart')); b.type = 'button'; b.onclick = function(){ st = { by: '', tel: '', ok: false, a: {}, step: 0 }; resumed = false; save(); render(true); }; r.appendChild(b); s.appendChild(r); }
+  }
+  function label(s, it, title, required, optional){
+    if (it) { var sec = T().sections[it.si]; s.appendChild(el('span', 'chapter', sec.title)); }
+    var h = el('h2', null, title); if (required) h.appendChild(el('span', 'req', '(' + UI('required') + ')')); else if (optional) h.appendChild(el('span', 'req', '(' + UI('optional') + ')')); s.appendChild(h);
+    if (it) { var sec2 = T().sections[it.si]; if (it.qi === 0 && sec2.lead) s.appendChild(el('p', 'lead', sec2.lead)); var tq = sec2.questions[it.qi]; if (tq.hint) s.appendChild(el('p', 'hint', tq.hint)); }
+  }
+  function renderText(s, o){
+    label(s, null, o.title, o.required, o.optional);
+    var inp = el('input'); inp.type = 'text'; inp.value = st[o.key] || ''; inp.setAttribute('aria-label', o.title); inp.placeholder = UI('textPh');
+    inp.addEventListener('input', function(){ st[o.key] = inp.value; save(); }); inp.addEventListener('keydown', function(ev){ if (ev.key === 'Enter') { ev.preventDefault(); next(); } });
+    s.appendChild(inp); s.appendChild(msgEl = el('div', 'msg'));
+  }
+  function renderQ(s, it){
+    var tq = T().sections[it.si].questions[it.qi], q = it.q;
+    label(s, it, tq.text, q.required, false);
+    if (q.type === 'text') {
+      var ta = el(q.lines === 1 ? 'input' : 'textarea'); if (q.lines === 1) ta.type = 'text'; ta.value = ans(it.n) || ''; ta.placeholder = UI('textPh'); ta.setAttribute('aria-label', tq.text);
+      ta.addEventListener('input', function(){ st.a[it.n] = ta.value; save(); });
+      ta.addEventListener('keydown', function(ev){ if (ev.key === 'Enter' && (q.lines === 1 || ev.metaKey || ev.ctrlKey)) { ev.preventDefault(); next(); } });
+      s.appendChild(ta);
+    } else {
+      s.appendChild(el('p', 'hint', q.type === 'multi' ? UI('pickMany') : UI('pickOne')));
+      var cur = ans(it.n) || { i: [], other: '' }; if (!cur.i) cur.i = [];
+      var wrap = el('div', 'opts'); wrap.setAttribute('role', q.type === 'multi' ? 'group' : 'radiogroup');
+      tq.options.forEach(function(o, i){
+        var b = el('button', 'opt'); b.type = 'button'; b.setAttribute('role', q.type === 'multi' ? 'checkbox' : 'radio'); b.setAttribute('aria-checked', cur.i.indexOf(i) >= 0 ? 'true' : 'false');
+        var k = el('span', 'k', String.fromCharCode(65 + i)); b.appendChild(k); b.appendChild(el('span', null, o));
+        b.addEventListener('click', function(){
+          if (q.type === 'multi') { var p = cur.i.indexOf(i); if (p >= 0) cur.i.splice(p, 1); else { if (q.max && cur.i.length >= q.max) cur.i.shift(); cur.i.push(i); } b.setAttribute('aria-checked', cur.i.indexOf(i) >= 0 ? 'true' : 'false'); wrap.querySelectorAll('.opt').forEach(function(x, j){ x.setAttribute('aria-checked', cur.i.indexOf(j) >= 0 ? 'true' : 'false'); }); st.a[it.n] = cur; save(); }
+          else { cur.i = [i]; st.a[it.n] = cur; save(); wrap.querySelectorAll('.opt').forEach(function(x, j){ x.setAttribute('aria-checked', j === i ? 'true' : 'false'); }); setTimeout(function(){ next(); }, 260); }
+        });
+        wrap.appendChild(b);
+      });
+      s.appendChild(wrap);
+      if (q.other) { var ot = el('input', 'other'); ot.type = 'text'; ot.placeholder = UI('otherPh'); ot.value = cur.other || ''; ot.addEventListener('input', function(){ cur.other = ot.value; st.a[it.n] = cur; save(); }); ot.addEventListener('keydown', function(ev){ if (ev.key === 'Enter') { ev.preventDefault(); next(); } }); s.appendChild(ot); }
+    }
+    s.appendChild(msgEl = el('div', 'msg'));
+  }
+  function renderConsent(s){
+    var t = T(); s.appendChild(el('span', 'chapter', t.sections[t.sections.length - 1].title)); s.appendChild(el('h2', null, UI('consentCheck')));
+    s.appendChild(el('div', 'consent', t.consent));
+    var lab = el('label', 'check'); var cb = el('input'); cb.type = 'checkbox'; cb.checked = !!st.ok; cb.addEventListener('change', function(){ st.ok = cb.checked; save(); }); lab.appendChild(cb); lab.appendChild(el('span', null, UI('consentCheck'))); s.appendChild(lab);
+    s.appendChild(msgEl = el('div', 'msg'));
+  }
+  function textOf(it){ var a = ans(it.n), tq = T().sections[it.si].questions[it.qi]; if (a == null) return ''; if (it.q.type === 'text') return String(a).trim(); var parts = (a.i || []).map(function(i){ return tq.options[i]; }); if (a.other && a.other.trim()) parts.push(UI('otherPh').split(':')[0] + ': ' + a.other.trim()); return parts.join(' | '); }
+  function renderReview(s){
+    s.appendChild(el('h2', null, UI('review'))); s.appendChild(el('p', 'hint', UI('reviewHint')));
+    var list = el('div', 'review');
+    var r0 = el('div', 'rv'); r0.appendChild(el('span', 'n', '')); var a0 = el('div'); a0.appendChild(el('div', 'q', T().identity.by)); a0.appendChild(el('div', 'a' + (st.by ? '' : ' none'), st.by || UI('noAnswer'))); r0.appendChild(a0); r0.onclick = function(){ jump('by'); }; list.appendChild(r0);
+    items.forEach(function(it){ var r = el('div', 'rv'); r.appendChild(el('span', 'n', it.n + '.')); var a = el('div'); a.appendChild(el('div', 'q', T().sections[it.si].questions[it.qi].text)); var txt = textOf(it); a.appendChild(el('div', 'a' + (txt ? '' : ' none'), txt || UI('noAnswer'))); r.appendChild(a); r.onclick = function(){ jump('q' + it.n); }; list.appendChild(r); });
+    s.appendChild(list); s.appendChild(msgEl = el('div', 'msg'));
+  }
+  function renderDone(s){
+    var d = el('div', 'done'); d.appendChild(el('div', 'big', st.sentVia === 'share' ? '📨' : '🎉'));
+    if (st.sentVia === 'share') { d.appendChild(el('h2', null, UI('shareTitle'))); d.appendChild(el('p', 'hint', UI('shareBody'))); var row = el('div', 'opts'); var w = el('button', 'btn', UI('whatsapp')); w.type = 'button'; w.onclick = function(){ window.open('https://wa.me/?text=' + encodeURIComponent(compose()), '_blank'); }; var c = el('button', 'btn alt', UI('copy')); c.type = 'button'; c.onclick = function(){ navigator.clipboard.writeText(compose()).then(function(){ c.textContent = UI('copied'); }); }; row.appendChild(w); row.appendChild(c); d.appendChild(row); var pre = el('pre', 'out', compose()); d.appendChild(pre); }
+    else { d.appendChild(el('h2', null, UI('sentTitle'))); d.appendChild(el('p', 'hint', UI('sentBody'))); d.appendChild(el('p', null, T().closing)); }
+    s.appendChild(d);
+  }
+  // ---- validation + navigation ----
+  function showMsg(t, ok){ if (msgEl) { msgEl.textContent = t; msgEl.className = 'msg' + (ok ? ' ok' : ''); } }
+  function next(){
+    var id = steps[st.step];
+    if (id === 'by' && !st.by.trim()) { showMsg(UI('missing') + T().identity.by); return; }
+    if (id.charAt(0) === 'q') { var it = items[parseInt(id.slice(1), 10) - 1]; if (it.q.required && !answered(it)) { showMsg(UI('missing') + UI('required')); return; } }
+    if (id === 'consent' && !st.ok) { showMsg(UI('missing') + UI('consentCheck')); return; }
+    if (id === 'review') { submit(); return; }
+    go(1);
+  }
+  nextBtn.addEventListener('click', next); backBtn.addEventListener('click', function(){ go(-1); });
+  document.addEventListener('keydown', function(ev){ var id = steps[st.step]; if (ev.key === 'Enter' && (id === 'welcome' || id === 'consent' || id === 'review') && !ev.shiftKey) { ev.preventDefault(); next(); } if (id.charAt(0) === 'q' && /^[1-9]$/.test(ev.key) && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') { var b = screen.querySelectorAll('.opt')[parseInt(ev.key, 10) - 1]; if (b) b.click(); } });
+  // ---- compose + submit ----
+  function compose(){ var t = T(), L = [t.title + ' · ' + new Date().toLocaleDateString(lang === 'he' ? 'he-IL' : 'en-GB')]; if (st.by) L.push(UI('filler') + ': ' + st.by); if (st.tel) L.push(UI('contact') + ': ' + st.tel); items.forEach(function(it){ var x = textOf(it); if (x) L.push(it.n + ') ' + x); }); L.push(UI('consentCheck') + ': ' + (st.ok ? '✓' : '✗')); L.push('(v6 ' + lang + ')'); return L.join('\n'); }
+  function finish(via){ st.sentVia = via; st.step = steps.length; steps.push('done'); save(); render(true); }
+  async function submit(){
+    nextBtn.disabled = true; showMsg(UI('sending'), true);
+    try {
+      if (SUBMIT.mode === 'google' && SUBMIT.action) {
+        var fd = new FormData();
+        var E = SUBMIT.entries || {};
+        if (E.by) fd.append(E.by, st.by); if (E.tel && st.tel) fd.append(E.tel, st.tel);
+        items.forEach(function(it){ var key = E['q' + it.n]; if (!key) return; var a = ans(it.n); if (a == null) return;
+          if (it.q.type === 'text') { if (String(a).trim()) fd.append(key, String(a).trim()); return; }
+          var tq = LANGS.he.sections[it.si].questions[it.qi]; (a.i || []).forEach(function(i){ fd.append(key, tq.options[i]); });
+          if (a.other && a.other.trim()) { fd.append(key, '__other_option__'); fd.append(key + '.other_option_response', a.other.trim()); } });
+        if (E.consent) fd.append(E.consent, st.ok ? 'מאשר/ת' : '');
+        if (E.lang) fd.append(E.lang, lang);
+        await fetch(SUBMIT.action, { method: 'POST', mode: 'no-cors', body: fd });
+        finish('google'); return;
+      }
+      if (SUBMIT.mode === 'formsubmit' && SUBMIT.endpoint) {
+        var r = await fetch(SUBMIT.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ _subject: T().title + ': ' + (st.by || ''), answers: compose() }) });
+        if (!r.ok) throw new Error('http ' + r.status);
+        finish('formsubmit'); return;
+      }
+      finish('share');
+    } catch (e) { nextBtn.disabled = false; showMsg(UI('failed')); var w = el('button', 'btn alt', UI('whatsapp')); w.type = 'button'; w.onclick = function(){ finish('share'); }; msgEl.appendChild(document.createElement('br')); msgEl.appendChild(w); }
+  }
+  applyChrome(); render(false);
+})();
+</script>
+</body>
+</html>
