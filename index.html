@@ -107,7 +107,7 @@ pre.out{white-space:pre-wrap;font:inherit;font-size:14px;background:var(--surfac
   var screen = $('screen'), nextBtn = $('next'), backBtn = $('back'), msgEl = null;
   function el(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
   function applyChrome(){
-    var t = T(); document.documentElement.setAttribute('dir', t.dir); document.documentElement.setAttribute('lang', lang); document.title = t.title; $('brand').textContent = t.title;
+    var t = T(); document.documentElement.setAttribute('dir', t.dir); document.documentElement.setAttribute('lang', lang); document.title = t.title; $('brand').textContent = lang === 'he' ? 'שאלון היכרות' : 'Getting to Know You';
     var lb = $('langbtn'); if (LANGS.en) { lb.hidden = false; lb.textContent = lang === 'he' ? 'English' : 'עברית'; }
   }
   if (LANGS.en) $('langbtn').addEventListener('click', function(){ lang = lang === 'he' ? 'en' : 'he'; try { localStorage.setItem(KEY + ':lang', lang); } catch (e) {} applyChrome(); render(false); });
