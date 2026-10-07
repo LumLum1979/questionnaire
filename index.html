@@ -88,7 +88,7 @@ pre.out{white-space:pre-wrap;font:inherit;font-size:14px;background:var(--surfac
 <script>
 (function(){
   var D = JSON.parse(document.getElementById('Q').textContent), S = D.structure, LANGS = D.lang, SUBMIT = D.submit || { mode: 'share' };
-  var KEY = 'intake-typeform-v7', lang = 'he';
+  var KEY = 'intake-typeform-v8', lang = 'he';
   try { var sl = localStorage.getItem(KEY + ':lang'); if (sl && LANGS[sl]) lang = sl; } catch (e) {}
   var T = function(){ return LANGS[lang]; }, UI = function(k){ return T().ui[k] || ''; };
   // flat question list
@@ -220,7 +220,7 @@ pre.out{white-space:pre-wrap;font:inherit;font-size:14px;background:var(--surfac
   nextBtn.addEventListener('click', next); backBtn.addEventListener('click', function(){ go(-1); });
   document.addEventListener('keydown', function(ev){ var id = steps[st.step]; if (ev.key === 'Enter' && (id === 'welcome' || id === 'consent' || id === 'review') && !ev.shiftKey) { ev.preventDefault(); next(); } if (id.charAt(0) === 'q' && /^[1-9]$/.test(ev.key) && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') { var b = screen.querySelectorAll('.opt')[parseInt(ev.key, 10) - 1]; if (b) b.click(); } });
   // ---- compose + submit ----
-  function compose(){ var t = T(), L = [t.title + ' · ' + new Date().toLocaleDateString(lang === 'he' ? 'he-IL' : 'en-GB')]; IDENT.forEach(function(f, fi){ var v = (st.id && st.id[f.key]) || ''; if (v) L.push((T().identity[fi] || f).label + ': ' + v); }); items.forEach(function(it){ var x = textOf(it); if (x) L.push(it.n + ') ' + x); }); L.push(UI('consentCheck') + ': ' + (st.ok ? '✓' : '✗')); L.push('(v7 ' + lang + ')'); return L.join('\n'); }
+  function compose(){ var t = T(), L = [t.title + ' · ' + new Date().toLocaleDateString(lang === 'he' ? 'he-IL' : 'en-GB')]; IDENT.forEach(function(f, fi){ var v = (st.id && st.id[f.key]) || ''; if (v) L.push((T().identity[fi] || f).label + ': ' + v); }); items.forEach(function(it){ var x = textOf(it); if (x) L.push(it.n + ') ' + x); }); L.push(UI('consentCheck') + ': ' + (st.ok ? '✓' : '✗')); L.push('(v8 ' + lang + ')'); return L.join('\n'); }
   function finish(via){ st.sentVia = via; st.step = steps.length; steps.push('done'); try { localStorage.removeItem(KEY); } catch (e) {} render(true); }
   async function submit(){
     nextBtn.disabled = true; showMsg(UI('sending'), true);
