@@ -141,7 +141,7 @@ pre.out{white-space:pre-wrap;font:inherit;font-size:14px;background:var(--surfac
     if (resumed) { var r = el('div', 'resume'); r.appendChild(document.createTextNode(UI('resume') + ' · ')); var b = el('button', null, UI('restart')); b.type = 'button'; b.onclick = function(){ st = { id: {}, ok: false, a: {}, step: 0 }; resumed = false; save(); render(true); }; r.appendChild(b); s.appendChild(r); }
   }
   function label(s, it, title, required, optional){
-    if (it) { var sec = T().sections[it.si]; s.appendChild(el('span', 'chapter', sec.title)); }
+    if (it && it.qi === 0) { var sec = T().sections[it.si]; s.appendChild(el('span', 'chapter', sec.title)); }
     var h = el('h2', null, title); if (required) h.appendChild(el('span', 'req', '(' + UI('required') + ')')); else if (optional) h.appendChild(el('span', 'req', '(' + UI('optional') + ')')); s.appendChild(h);
     if (it) { var sec2 = T().sections[it.si]; if (it.qi === 0 && sec2.lead) s.appendChild(el('p', 'lead', sec2.lead)); var tq = sec2.questions[it.qi]; if (tq.hint) s.appendChild(el('p', 'hint', tq.hint)); }
   }
